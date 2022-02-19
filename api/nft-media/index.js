@@ -73,15 +73,15 @@ async function getLayer(name, skip=0.0) {
 
 
 
-async function createImageXml (idx) {
+async function createImageXml ( idx ) {
 
-    const bg = randInt(5);
-    const hair = randInt(7);
-    const eyes = randInt(9);
-    const nose = randInt(4); 
-    const mouth = randInt(5);
-    const beard = randInt(3);
-    // 18,900 combinations
+    const bg = idx % 5
+    const hair = idx % 7
+    const eyes = idx % 9
+    const nose = idx %  4
+    const mouth = idx % 5
+    const beard = idx % 3
+    // ♾ combinations
 
     // const face = [hair, eyes, mouth, nose, beard].join('');
 
@@ -143,14 +143,14 @@ export default async function (req, res) {
     try {
 
         // Get path from url
-        const { ext } = path.parse( req.url )
+        const { ext, name } = path.parse( req.query.path )
         // Trim dot from extension
         const extension = ext.substring(1)
 
         const {
             meta, 
             markup
-        } = await createImageXml( 33 )
+        } = await createImageXml( name )
 
         // Set Cors Headers to allow all origins so data can be requested by a browser
         res.setHeader("Access-Control-Allow-Origin", "*");
