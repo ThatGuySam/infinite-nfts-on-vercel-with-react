@@ -1,10 +1,13 @@
 import WalletBalance from './WalletBalance';
 import { useEffect, useState } from 'react';
+import { ethers } from 'ethers'
 
-import { ethers } from 'ethers';
-import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json';
+import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json'
+import { getMetaDataUrl, getImageUrl } from '../helpers/urls.mjs'
 
-const contractAddress = 'YOUR_DEPLOYED_CONTRACT_ADDRESS';
+const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
+
+// console.log('contractAddress', contractAddress)
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -12,7 +15,7 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
 // get the smart contract
-const contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer);
+const contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer)
 
 
 function Home() {
@@ -23,16 +26,18 @@ function Home() {
   }, []);
 
   const getCount = async () => {
-    const count = await contract.count();
-    console.log(parseInt(count));
+    const count = await contract.count()//.catch(console.error)
+    // console.log('Contract count', parseInt(count));
     setTotalMinted(parseInt(count));
-  };
+  }
+
+  // console.log('totalMinted', totalMinted)
 
   return (
     <div>
       <WalletBalance />
 
-      <h1>Fired Guys NFT Collection</h1>
+      <h1>Multiverse of Albums</h1>
       <div className="container">
         <div className="row">
           {Array(totalMinted + 1)
@@ -50,8 +55,8 @@ function Home() {
 
 function NFTImage({ tokenId, getCount }) {
   const contentId = 'Qmdbpbpy7fA99UkgusTiLhMWzyd3aETeCFrz7NpYaNi6zY';
-  const metadataURI = `${contentId}/${tokenId}.json`;
-  const imageURI = `https://gateway.pinata.cloud/ipfs/${contentId}/${tokenId}.png`;
+  const metadataURI = getMetaDataUrl( tokenId )
+  const imageURI = getImageUrl( tokenId )
 //   const imageURI = `img/${tokenId}.png`;
 
   const [isMinted, setIsMinted] = useState(false);
@@ -60,8 +65,10 @@ function NFTImage({ tokenId, getCount }) {
   }, [isMinted]);
 
   const getMintedStatus = async () => {
-    const result = await contract.isContentOwned(metadataURI);
-    console.log(result)
+    // console.log('metadataURI', tokenId, metadataURI)
+    
+    const result = await contract.isContentOwned(metadataURI).catch(console.error)
+    // console.log('isContentOwned', result)
     setIsMinted(result);
   };
 

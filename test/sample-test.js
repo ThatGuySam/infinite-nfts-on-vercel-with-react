@@ -1,14 +1,19 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+// import { expect } from 'chai'
+// import { ethers } from 'hardhat'
+
 describe("MyNFT", function () {
   it("Should mint and transfer an NFT to someone", async function () {
+    const { getMetaDataUrl } = await import('../src/helpers/urls.mjs')
+
     const FiredGuys = await ethers.getContractFactory("FiredGuys");
     const firedguys = await FiredGuys.deploy();
-    await firedguys.deployed();
+    await firedguys.deployed()
 
-    const recipient = '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266';
-    const metadataURI = 'cid/test.png';
+    const recipient = '0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199'
+    const metadataURI = getMetaDataUrl( recipient )
 
     let balance = await firedguys.balanceOf(recipient);
     expect(balance).to.equal(0);
