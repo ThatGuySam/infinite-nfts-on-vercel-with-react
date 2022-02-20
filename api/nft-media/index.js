@@ -2,13 +2,26 @@ import fs from 'fs-extra'
 import glob from 'glob-promise'
 import path from 'path'
 
+import { getDeterministicItem } from '../../src/helpers/deterministic.js'
+import { getImageURLFromDecimal } from '../../src/helpers/urls.js'
+
+import paths from '../../src/assets/built-path-references.json'
+
+console.log('built-path-references', paths)
+
+const wordsListPath = `${ paths.wordsList }.txt`
+const wordsMetaPath = `${ paths.wordsList }-meta.json`
+const imageListPath = `${ paths.imageUrlList }.txt`
+const imageMetaPath = `${ paths.imageUrlList }-meta.json`
+
 
 const layersDirectory = 'src/assets'
 
 
 const template = `
-    <svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1000" height="1000" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- bg -->
+        <!-- image1 -->
         <!-- head -->
         <!-- hair -->
         <!-- eyes -->
@@ -21,33 +34,63 @@ const template = `
     </svg>
 `
 
-const takenNames = {};
-const takenFaces = {};
-let idx = 999;
+const blendModes = [
+    'color-burn',
+    'color-dodge',
+    'darken',
+    'multiply',
+    'linear-burn',
+    'darker-color',
+    'lighten',
+    'screen',
+    'linear-dodge',
+    'lighter-color',
+    'overlay',
+    'soft-light',
+    'hard-light',
+    'difference',
+    'exclusion',
+    'hue'
+]
 
-function randInt(max) {
-    return Math.floor(Math.random() * (max + 1));
+const templateImage = ({ href, blendMode }) => {
+    // Convert Ampersands for SVG validation
+    // https://stackoverflow.com/a/6919260/1397641
+    const encodedHref = href.replaceAll('&', '&amp;')
+
+    return `
+        <image 
+            x="0" 
+            y="0" 
+            width="256" 
+            height="256" 
+            style="object-fit: cover; mix-blend-mode: ${ blendMode };"
+            href="${ encodedHref }"
+        />
+`
 }
 
-function randElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+
+async function getWordsFromSeedNumber( seedNumber ) {
+
+    console.log( 'wordsListPath', wordsListPath )
+
+    const wordsMeta = await fs.readJson(wordsMetaPath)
+
+    const word = await getDeterministicItem({
+        list: wordsListPath, 
+        listLength: wordsMeta.total,
+        seedNumber
+    })
+
+    return word
 }
 
 
-function getRandomName() {
-    const adjectives = 'fired trashy tubular nasty jacked swol buff ferocious firey flamin agnostic artificial bloody crazy cringey crusty dirty eccentric glutinous harry juicy simple stylish awesome creepy corny freaky shady sketchy lame sloppy hot intrepid juxtaposed killer ludicrous mangy pastey ragin rusty rockin sinful shameful stupid sterile ugly vascular wild young old zealous flamboyant super sly shifty trippy fried injured depressed anxious clinical'.split(' ');
-    const names = 'aaron bart chad dale earl fred grady harry ivan jeff joe kyle lester steve tanner lucifer todd mitch hunter mike arnold norbert olaf plop quinten randy saul balzac tevin jack ulysses vince will xavier yusuf zack roger raheem rex dustin seth bronson dennis'.split(' ');
-    
-    const randAdj = randElement(adjectives);
-    const randName = randElement(names);
-    const name =  `${randAdj}-${randName}`;
-
-
-    if (takenNames[name] || !name) {
-        return getRandomName();
-    } else {
-        takenNames[name] = name;
-        return name;
+async function getNameAndBand ( seedNumber ) {
+    return {
+        name: await getWordsFromSeedNumber( seedNumber ),
+        band: await getWordsFromSeedNumber( seedNumber + 1 ),
     }
 }
 
@@ -75,7 +118,8 @@ function replaceAllFillColor ( str, fill ) {
 }
 
 
-async function createImageXml ( idx ) {
+
+async function createImageXml ( multiverseAlbumNumber ) {
 
 
     const heroiconGlob = (await glob('src/assets/heroicons/**/*'))
@@ -88,34 +132,47 @@ async function createImageXml ( idx ) {
     // console.log('heroicons', heroicons)
 
 
-    const bg = idx % 5
-    const hair = idx % 7
-    const eyes = idx % 9
-    const nose = idx %  4
-    const mouth = idx % 5
-    const beard = idx % 3
-    const heroicon = idx % heroicons.length
+    const bg = multiverseAlbumNumber % 5
+    const hair = multiverseAlbumNumber % 7
+    const eyes = multiverseAlbumNumber % 9
+    const nose = multiverseAlbumNumber %  4
+    const mouth = multiverseAlbumNumber % 5
+    const beard = multiverseAlbumNumber % 3
+    const heroicon = multiverseAlbumNumber % heroicons.length
     // ♾ combinations
-
-    // const face = [hair, eyes, mouth, nose, beard].join('');
     
-    console.log('total heroicons', heroicons.length)
+    // console.log('total heroicons', heroicons.length)
 
 
 
-    const name = getRandomName()
-    console.log(name)
-    // face[takenFaces] = face;
+    const {
+        name
+    } = await getNameAndBand( multiverseAlbumNumber )
+
+    // Get an image from the multiverse album number
+    const imageUrl = await getDeterministicItem({
+        list: imageListPath,
+        listLength: (await fs.readJson( imageMetaPath )).total,
+        seedNumber: multiverseAlbumNumber
+    })
+
+    const blendMode = blendModes[ multiverseAlbumNumber % blendModes.length ]
+
+    console.log( 'imageUrl', imageUrl )
 
     const parts = {
         '<!-- bg -->': `fireship/bg${bg}`,
-        '<!-- head -->': `fireship/head0`,
-        '<!-- hair -->': `fireship/hair${hair}`,
-        '<!-- eyes -->': `fireship/eyes${eyes}`,
-        '<!-- nose -->': `fireship/nose${nose}`,
-        '<!-- mouth -->': `fireship/mouth${mouth}`,
-        '<!-- beard -->': `fireship/beard${beard}`,
+        // '<!-- head -->': `fireship/head0`,
+        // '<!-- hair -->': `fireship/hair${hair}`,
+        // '<!-- eyes -->': `fireship/eyes${eyes}`,
+        // '<!-- nose -->': `fireship/nose${nose}`,
+        // '<!-- mouth -->': `fireship/mouth${mouth}`,
+        // '<!-- beard -->': `fireship/beard${beard}`,
         '<!-- heroicon -->': `heroicons/${ heroicons[heroicon] }`,
+    }
+
+    const templatedParts = {
+        '<!-- image1 -->': templateImage({ href: imageUrl, blendMode }),
     }
 
     let workingString = template;
@@ -131,21 +188,16 @@ async function createImageXml ( idx ) {
         workingString = workingString.replace(key, layerMarkup)
     }
 
-    const final = workingString
+    for ( const [key, value] of Object.entries(templatedParts)) {
+        workingString = workingString.replace(key, value)
+    }
 
-    // const final = template
-    //     .replace('<!-- bg -->', getLayer(`bg${bg}`))
-    //     .replace('<!-- head -->', getLayer('head0'))
-    //     .replace('<!-- hair -->', getLayer(`hair${hair}`))
-    //     .replace('<!-- eyes -->', getLayer(`eyes${eyes}`))
-    //     .replace('<!-- nose -->', getLayer(`nose${nose}`))
-    //     .replace('<!-- mouth -->', getLayer(`mouth${mouth}`))
-    //     .replace('<!-- beard -->', getLayer(`beard${beard}`, 0.5))
+    const final = workingString
 
     const meta = {
         name,
         description: `A drawing of ${name.split('-').join(' ')}`,
-        image: `${idx}.png`,
+        image: getImageURLFromDecimal( multiverseAlbumNumber ),
         attributes: [
             { 
                 beard: '',
@@ -196,7 +248,7 @@ export default async function (req, res) {
         // Repond with Video JSON Data
         res.json({
             ...meta, 
-            markup
+            // markup
         })
 
     } catch ( error ) {
