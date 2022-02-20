@@ -7,8 +7,8 @@
     "build": "node scripts/build.mjs && vite build",
     "preview": "vite preview",
     "set-up-hardhat": "hardhat && hardhat node",
-    "deploy-local-network": "hardhat compile && hardhat run scripts/sample-deploy.js --network localhost",
-    "deploy-matic-network": "hardhat compile && hardhat run scripts/sample-deploy.js --network matic"
+    "deploy-local-network": "hardhat compile && hardhat run scripts/deploy.js --network localhost",
+    "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic"
   },
   "dependencies": {
     "fs-extra": "^10.0.0",
