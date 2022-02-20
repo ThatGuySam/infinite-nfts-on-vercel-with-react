@@ -11,11 +11,11 @@ function decToHex(dec) {
 export function getMetaDataUrl ( hexidecimalTokenId ) {
     const decimal = hexToDec( hexidecimalTokenId )
 
-    return `/nft-media/${ decimal }.json`
+    return `nft-media/${ decimal }.json`
 }
 
 export function getImageUrl ( hexidecimalTokenId ) {
     const decimal = hexToDec( hexidecimalTokenId )
 
-    return `/nft-media/${ decimal }.svg`
+    return `nft-media/${ decimal }.svg`
 }
