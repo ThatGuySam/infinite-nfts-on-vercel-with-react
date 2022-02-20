@@ -2,9 +2,13 @@
   "name": "web3app",
   "version": "0.0.0",
   "scripts": {
+    "test": "hardhat test", 
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "set-up-hardhat": "hardhat && hardhat node",
+    "deploy-local-network": "hardhat compile && hardhat run scripts/sample-deploy.js --network localhost",
+    "deploy-matic-network": "hardhat compile && hardhat run scripts/sample-deploy.js --network matic"
   },
   "dependencies": {
     "fs-extra": "^10.0.0",
