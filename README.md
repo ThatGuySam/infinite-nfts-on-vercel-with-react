@@ -7,16 +7,24 @@ The demo contains a basic web3 app and smart contract for minting NFTs.
 
 ## Usage
 
+Prerequisites
+
+- For MetaMask: Enable Settings > Advanced > "Show test networks"
+
 ```bash
 git clone <this-repo>
 npm install
 
+# Copy the env example
+cp .env.example .env
+
 # terminal 1
-npx hardhat node
+npm run set-up-hardhat
 
 # terminal 2
-npx hardhat compile
-npx hardhat run scripts/sample-script.js --network localhost
+npm run deploy-local-network
+
+# Copy the returned Contract Address into your VITE_CONTRACT_ADDRESS in the .env file you created earlier
 
 # terminal 3 
 npm run dev
