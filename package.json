@@ -2,9 +2,9 @@
   "name": "web3app",
   "version": "0.0.0",
   "scripts": {
-    "test": "hardhat test", 
-    "dev": "vite",
-    "build": "vite build",
+    "test": "hardhat test",
+    "dev": "node scripts/build.mjs && vercel dev",
+    "build": "node scripts/build.mjs && vite build",
     "preview": "vite preview",
     "set-up-hardhat": "hardhat && hardhat node",
     "deploy-local-network": "hardhat compile && hardhat run scripts/sample-deploy.js --network localhost",
