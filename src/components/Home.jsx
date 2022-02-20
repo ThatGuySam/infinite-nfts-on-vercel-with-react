@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers'
 
 import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json'
-import { getMetaDataUrl, getImageUrl } from '../helpers/urls.mjs'
+import { getMetaDataUrl, getImageUrl } from '../helpers/urls.js'
 
+// https://vitejs.dev/guide/env-and-mode.html#env-files
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
 
 // console.log('contractAddress', contractAddress)
