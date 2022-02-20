@@ -1,9 +1,20 @@
 {
-    "functions": {
-      "api/nft-media/index.js": {
-        "includeFiles": "src/assets/**"
-      }
-    },
+    "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": { 
+                "distDir": "dist" 
+            }
+        },
+        {
+            "src": "api/nft-media/index.js",
+            "use": "@vercel/node",
+            "config": { 
+                "includeFiles": "src/assets/**" 
+            }
+        }
+    ],
     "rewrites": [
         {
             "source": "/nft-media/:path*",
