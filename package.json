@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "test": "hardhat test",
-    "dev": "node scripts/build.mjs && vercel dev",
-    "build": "node scripts/build.mjs && vite build",
+    "dev": "npm run prebuild && vercel dev",
+    "prebuild": "node -r esm scripts/prebuild.js",
+    "build": "npm run prebuild && vite build",
     "preview": "vite preview",
     "set-up-hardhat": "hardhat && hardhat node",
     "deploy-local-network": "hardhat compile && hardhat run scripts/deploy.js --network localhost",

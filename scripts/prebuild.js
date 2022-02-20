@@ -3,7 +3,7 @@ import wordListPath from 'word-list'
 // https://github.com/webcaetano/shuffle-seed
 import shuffleSeed from 'shuffle-seed'
 
-import { getDeterministicItem } from '../src/helpers/deterministic.mjs'
+import { getDeterministicItem } from '../src/helpers/deterministic.js'
 
 
 
