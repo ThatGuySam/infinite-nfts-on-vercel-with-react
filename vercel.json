@@ -1,0 +1,13 @@
+{
+    "functions": {
+      "api/nft-media/index.js": {
+        "includeFiles": "src/assets/**"
+      }
+    },
+    "rewrites": [
+        {
+            "source": "/nft-media/:path*",
+            "destination": "/api/nft-media"
+        }
+    ]
+}
