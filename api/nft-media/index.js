@@ -1,15 +1,9 @@
 import fs from 'fs-extra'
-import glob from 'glob'
+import glob from 'glob-promise'
 import path from 'path'
 
 
-const layersDirectory = 'src/layers'
-
-
-const getAllLayers = () => {
-    return glob.sync(`${ layersDirectory }/**`)
-}
-
+const layersDirectory = 'src/assets'
 
 
 const template = `
@@ -21,6 +15,9 @@ const template = `
         <!-- nose -->
         <!-- mouth -->
         <!-- beard -->
+        <g style="transform: scale(4) translate(1%, 1%);">
+            <!-- heroicon -->
+        </g>
     </svg>
 `
 
@@ -71,9 +68,25 @@ async function getLayer(name, skip=0.0) {
 //     await resized.toFile(dest);
 // }
 
+function replaceAllFillColor ( str, fill ) {
+    return str.replace(/fill="[^"]*"/g, `fill="${fill}"`)
+
+    // myAttr=\"([^']*?)\"
+}
 
 
 async function createImageXml ( idx ) {
+
+
+    const heroiconGlob = (await glob('src/assets/heroicons/**/*'))
+    const heroicons = heroiconGlob.map(file => {
+        // console.log('file', file)
+
+        return path.basename(file, '.svg')
+    })
+
+    // console.log('heroicons', heroicons)
+
 
     const bg = idx % 5
     const hair = idx % 7
@@ -81,28 +94,39 @@ async function createImageXml ( idx ) {
     const nose = idx %  4
     const mouth = idx % 5
     const beard = idx % 3
+    const heroicon = idx % heroicons.length
     // ♾ combinations
 
     // const face = [hair, eyes, mouth, nose, beard].join('');
+    
+    console.log('total heroicons', heroicons.length)
+
+
 
     const name = getRandomName()
     console.log(name)
     // face[takenFaces] = face;
 
     const parts = {
-        '<!-- bg -->': `bg${bg}`,
-        '<!-- head -->': `head0`,
-        '<!-- hair -->': `hair${hair}`,
-        '<!-- eyes -->': `eyes${eyes}`,
-        '<!-- nose -->': `nose${nose}`,
-        '<!-- mouth -->': `mouth${mouth}`,
-        '<!-- beard -->': `beard${beard}`,
+        '<!-- bg -->': `fireship/bg${bg}`,
+        '<!-- head -->': `fireship/head0`,
+        '<!-- hair -->': `fireship/hair${hair}`,
+        '<!-- eyes -->': `fireship/eyes${eyes}`,
+        '<!-- nose -->': `fireship/nose${nose}`,
+        '<!-- mouth -->': `fireship/mouth${mouth}`,
+        '<!-- beard -->': `fireship/beard${beard}`,
+        '<!-- heroicon -->': `heroicons/${ heroicons[heroicon] }`,
     }
 
     let workingString = template;
 
     for ( const [key, value] of Object.entries(parts)) {
-        const layerMarkup = await getLayer(value)
+        let layerMarkup = await getLayer(value)
+
+        if ( key !== '<!-- bg -->' ) {
+            // Set the fill color
+            layerMarkup = replaceAllFillColor( layerMarkup, '#000000' )
+        }
 
         workingString = workingString.replace(key, layerMarkup)
     }
@@ -171,8 +195,8 @@ export default async function (req, res) {
 
         // Repond with Video JSON Data
         res.json({
-            meta,
-            layers: getAllLayers(),
+            ...meta, 
+            markup
         })
 
     } catch ( error ) {
