@@ -17,6 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sharp": "^0.30.1",
+    "shuffle-seed": "^1.1.6",
     "word-list": "^3.1.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.5.3",
     "hardhat": "^2.8.4",
+    "vercel": "^24.0.0",
     "vite": "^2.7.2"
   }
 }
