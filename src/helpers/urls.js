@@ -14,10 +14,14 @@ export function getMetaDataUrl ( hexidecimalTokenId ) {
     return `nft-media/${ decimal }.json`
 }
 
-export function getImageUrl ( hexidecimalTokenId ) {
-    const decimal = hexToDec( hexidecimalTokenId )
+export function getImageURLFromDecimal ( decimalTokenId ) {
+    return `nft-media/${ decimalTokenId }.svg`
+}
 
-    return `nft-media/${ decimal }.svg`
+export function getImageUrl ( hexidecimalTokenId ) {
+    const decimalTokenId = hexToDec( hexidecimalTokenId )
+
+    return getImageURLFromDecimal( decimalTokenId )
 }
 
 export function parseUnsplashImgixUrl ( rawImgixUrl ) {
