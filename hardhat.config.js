@@ -18,6 +18,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.4",
+  networks: {
+    hardhat: {
+      // MetaMask Mandated Chain ID
+      // You'll also need to enable Settings > Advanced > "Show test networks" in MetaMask
+      // https://hardhat.org/metamask-issue.html#metamask-chainid-issue
+      chainId: 1337
+    },
+  },
   paths: {
     artifacts: './src/artifacts',
   },
