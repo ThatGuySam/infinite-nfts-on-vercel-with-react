@@ -40,7 +40,7 @@ async function main() {
     await shuffleAndSaveToText({
         list: alphaWords,
         seedNumber: numberForShuffle,
-        savePath: './src/assets/words'
+        savePath: './src/assets/built-words'
     })
 
 
