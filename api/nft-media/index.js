@@ -57,6 +57,7 @@ const template = `
 `
 
 const blendModes = [
+    'normal',
     'color-burn',
     'color-dodge',
     'darken',
