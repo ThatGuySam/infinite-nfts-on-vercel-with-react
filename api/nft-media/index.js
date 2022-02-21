@@ -8,7 +8,28 @@ import { getImageURLFromDecimal } from '../../src/helpers/urls.js'
 
 import paths from '../../src/assets/built-path-references.json'
 
-console.log('built-path-references', paths)
+
+
+const ONE_HOUR = 60 * 60
+const ONE_DAY = ONE_HOUR * 24
+const ONE_WEEK = ONE_DAY * 7
+const ONE_MONTH = ONE_DAY * 30
+const ONE_YEAR = ONE_DAY * 365
+
+
+export const successHeaders = {
+    // Set Cors Headers to allow all origins so data can be requested by a browser
+    'Access-Control-Allow-Origin': '*', 
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept', 
+    
+    // Use very long cache duration to ensure we're not doing lots of requests
+    'Cache-Control': `public, max-age=${ ONE_DAY }, s-maxage=${ ONE_YEAR }`,
+
+    // Set the content type for jpg
+    'Content-Type': 'image/svg+xml', 
+    'Content-Disposition': 'inline'
+}
+
 
 const wordsListPath = `${ paths.wordsList }.txt`
 const wordsMetaPath = `${ paths.wordsList }-meta.json`
@@ -235,9 +256,10 @@ export default async function (req, res) {
 
         // Handle SVG in path
         if ( extension === 'svg' ) {
-            res.setHeader('Content-Type', 'image/svg+xml')
-            // Set Content-Disposition to inline
-            res.setHeader('Content-Disposition', 'inline')
+            // Set headers
+            for ( const [key, value] of Object.entries(successHeaders)) {
+                res.setHeader(key, value)
+            }
 
             res.send(markup)
 
