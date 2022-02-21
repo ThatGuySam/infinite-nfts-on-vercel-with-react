@@ -24,6 +24,16 @@ export function getImageUrl ( hexidecimalTokenId ) {
     return getImageURLFromDecimal( decimalTokenId )
 }
 
+export function getPhotoLayerUrl ( decimalNumber ) {
+
+    // Check for non-numeric characters
+    if ( !/^\d+$/.test(decimalNumber) ) {
+        throw new Error(`${decimalNumber} is not a valid decimal number`)
+    }
+
+    return `photo-layer/${ decimalNumber }.jpg`
+}
+
 export function parseUnsplashImgixUrl ( rawImgixUrl ) {
     const url = new URL( rawImgixUrl )
 
