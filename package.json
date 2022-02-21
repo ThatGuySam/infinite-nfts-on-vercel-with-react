@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.26.0",
+    "dotenv": "^16.0.0",
     "esm": "^3.2.25",
     "fast-xml-parser": "^4.0.3",
     "fs-extra": "^10.0.0",
