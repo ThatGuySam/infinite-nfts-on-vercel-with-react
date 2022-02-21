@@ -7,7 +7,7 @@
     "prebuild": "node -r esm scripts/prebuild.js",
     "build": "vite build",
     "preview": "vite preview",
-    "set-up-hardhat": "hardhat && hardhat node",
+    "start-hardhat-server": "hardhat && hardhat node",
     "deploy-local-network": "hardhat compile && hardhat run scripts/deploy.js --network localhost",
     "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic"
   },
