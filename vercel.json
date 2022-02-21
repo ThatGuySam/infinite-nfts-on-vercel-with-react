@@ -8,7 +8,7 @@
             }
         },
         {
-            "src": "api/nft-media/index.js",
+            "src": "api/nft-media/**",
             "use": "@vercel/node",
             "config": { 
                 "includeFiles": "src/assets/**" 
@@ -19,6 +19,10 @@
         {
             "source": "/nft-media/:path*",
             "destination": "/api/nft-media"
+        },
+        {
+            "source": "/photo-layer/:path*",
+            "destination": "/api/nft-media/image.js"
         }
     ]
 }
