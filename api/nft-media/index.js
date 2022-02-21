@@ -2,6 +2,7 @@ import fs from 'fs-extra'
 import glob from 'glob-promise'
 import path from 'path'
 import replaceAll from 'just-replace-all'
+import axios from 'axios'
 
 import { getDeterministicItem } from '../../src/helpers/deterministic.js'
 import { getImageURLFromDecimal } from '../../src/helpers/urls.js'
@@ -41,7 +42,14 @@ const layersDirectory = 'src/assets'
 
 
 const template = `
-    <svg width="1000" height="1000" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg 
+        width="1000"
+        height="1000" 
+        viewBox="0 0 256 256" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg" 
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
         <!-- bg -->
         <!-- image1 -->
         <!-- head -->
@@ -93,6 +101,13 @@ const templateImage = ({ href, blendMode }) => {
 `
 }
 
+function getBase64(url) {
+    return axios
+      .get(url, {
+        responseType: 'arraybuffer'
+      })
+      .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+}
 
 async function getWordsFromSeedNumber( seedNumber ) {
 
@@ -156,11 +171,7 @@ async function createImageXml ( multiverseAlbumNumber ) {
 
 
     const bg = multiverseAlbumNumber % 5
-    const hair = multiverseAlbumNumber % 7
-    const eyes = multiverseAlbumNumber % 9
-    const nose = multiverseAlbumNumber %  4
-    const mouth = multiverseAlbumNumber % 5
-    const beard = multiverseAlbumNumber % 3
+
     const heroicon = multiverseAlbumNumber % heroicons.length
     // ♾ combinations
     
@@ -179,9 +190,12 @@ async function createImageXml ( multiverseAlbumNumber ) {
         seedNumber: multiverseAlbumNumber
     })
 
-    const blendMode = blendModes[ multiverseAlbumNumber % blendModes.length ]
-
     console.log( 'imageUrl', imageUrl )
+
+    // Fetch and convert the image to base64
+    const imageBase64 = 'data:image/jpg;base64,' + (await getBase64(imageUrl))
+
+    const blendMode = blendModes[ multiverseAlbumNumber % blendModes.length ]
 
     const parts = {
         '<!-- bg -->': `fireship/bg${bg}`,
@@ -195,7 +209,7 @@ async function createImageXml ( multiverseAlbumNumber ) {
     }
 
     const templatedParts = {
-        '<!-- image1 -->': templateImage({ href: imageUrl, blendMode }),
+        '<!-- image1 -->': templateImage({ href: imageBase64, blendMode }),
     }
 
     let workingString = template;
