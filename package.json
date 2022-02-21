@@ -12,6 +12,7 @@
     "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "esm": "^3.2.25",
     "fast-xml-parser": "^4.0.3",
     "fs-extra": "^10.0.0",
