@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import glob from 'glob-promise'
 import path from 'path'
+import replaceAll from 'just-replace-all'
 
 import { getDeterministicItem } from '../../src/helpers/deterministic.js'
 import { getImageURLFromDecimal } from '../../src/helpers/urls.js'
@@ -56,7 +57,7 @@ const blendModes = [
 const templateImage = ({ href, blendMode }) => {
     // Convert Ampersands for SVG validation
     // https://stackoverflow.com/a/6919260/1397641
-    const encodedHref = href.replaceAll('&', '&amp;')
+    const encodedHref = replaceAll(href, '&', '&amp;')
 
     return `
         <image 
