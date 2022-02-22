@@ -10,7 +10,7 @@
     "start-hardhat-server": "hardhat && hardhat node",
     "deploy-local-network": "hardhat compile && hardhat run scripts/deploy.js --network localhost",
     "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic",
-    "deploy-vercel-staging": "vercel", 
+    "deploy-vercel": "vercel", 
     "deploy-vercel-production": "vercel --prod"
   },
   "dependencies": {
