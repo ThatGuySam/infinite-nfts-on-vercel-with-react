@@ -250,7 +250,7 @@ async function createImageXml ( multiverseAlbumNumber ) {
     const meta = {
         name,
         description: `A drawing of ${name.split('-').join(' ')}`,
-        image: getImageURLFromDecimal( multiverseAlbumNumber ),
+        image: 'https://multiversealbums.com/' + getImageURLFromDecimal( multiverseAlbumNumber ),
         attributes: [
             { 
                 beard: '',
