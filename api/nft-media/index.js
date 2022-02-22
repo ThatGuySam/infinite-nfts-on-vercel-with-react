@@ -65,23 +65,23 @@ const template = `
 `
 
 const blendModes = [
-    'normal',
+    'difference',
     'color-burn',
     'color-dodge',
     'darken',
     'multiply',
-    'linear-burn',
-    'darker-color',
+    'color-burn',
+    'soft-light',
     'lighten',
     'screen',
-    'linear-dodge',
-    'lighter-color',
+    'soft-light',
+    'soft-light',
     'overlay',
     'soft-light',
-    'hard-light',
+    'lighten',
     'difference',
     'exclusion',
-    'hue'
+    'exclusion'
 ]
 
 const templateImage = ({ href, blendMode }) => {
