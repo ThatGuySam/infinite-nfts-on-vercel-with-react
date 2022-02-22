@@ -1,5 +1,7 @@
 # Web3 - Full Tutorial
 
+Based on [Fireship's Excellent NFT Tutorial](https://fireship.io/lessons/web3-solidity-hardhat-react-tutorial/)
+
 The demo contains a basic web3 app and smart contract for minting NFTs.
 
 - See it in action in the [Web3 NFT Tutorial](https://youtu.be/meTpMP0J5E8) on YouTube.
