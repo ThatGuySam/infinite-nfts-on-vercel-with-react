@@ -39,8 +39,7 @@ let imageListPath
 let imageMetaPath
 
 async function setupPathVariables () {
-    console.log('root', (await glob('./**/*')))
-    console.log('src', (await glob('./src/**/*')))
+    console.log('assets', (await glob('./src/assets/*')))
 
     // https://vercel.com/docs/runtimes#advanced-usage/technical-details/including-additional-files
     pathsJson = await fs.readFile('./src/assets/built-path-references.json')
