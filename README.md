@@ -6,7 +6,12 @@ You can test deploy with the `VITE_CONTRACT_ADDRESS` for Multiverse Albums:
 ```0xFE723B06285a5039eE6354D05690fF2b7F693036```
 <br>
 <br>
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FThatGuySam%2Finfinite-nfts-on-vercel-with-react&env=VITE_CONTRACT_ADDRESS&envDescription=Enter%20the%20Contract%20API%20Address.&envLink=https://github.com/ThatGuySam/infinite-nfts-on-vercel-with-react/blob/main/.env.example#L19)
+<a 
+    target="_blank"
+    href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FThatGuySam%2Finfinite-nfts-on-vercel-with-react&env=VITE_CONTRACT_ADDRESS&envDescription=Enter%20the%20Contract%20API%20Address.&envLink=https://github.com/ThatGuySam/infinite-nfts-on-vercel-with-react/blob/main/.env.example#L19"
+>
+    <img src="https://vercel.com/button" alt="Deploy with Vercel">
+</a>
 
 
 Based on [Fireship's Excellent NFT Tutorial](https://fireship.io/lessons/web3-solidity-hardhat-react-tutorial/)
