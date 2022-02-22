@@ -1,5 +1,10 @@
 # Web3 Extended Tutorial - Multiverse Albums
 
+
+You can test deploy with the `VITE_CONTRACT_ADDRESS` for Multiverse Albums: `0xFE723B06285a5039eE6354D05690fF2b7F693036`
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FThatGuySam%2Finfinite-nfts-on-vercel-with-react&env=VITE_CONTRACT_ADDRESS&envDescription=Enter%20the%20Contract%20API%20Address.&envLink=https://github.com/ThatGuySam/infinite-nfts-on-vercel-with-react/blob/main/.env.example#L19)
+
+
 Based on [Fireship's Excellent NFT Tutorial](https://fireship.io/lessons/web3-solidity-hardhat-react-tutorial/)
 
 The demo contains a basic web3 app and smart contract for minting NFTs.
@@ -32,8 +37,9 @@ npm run deploy-local-network
 npm run dev
 ```
 
-Once you have a publicly working contract address you can deploy the site live with `npm run deploy-vercel` or by clicking the button below.
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FThatGuySam%2Finfinite-nfts-on-vercel-with-react)
+
+
+
 
 
 ## Nonce too high
