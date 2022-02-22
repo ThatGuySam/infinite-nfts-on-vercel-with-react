@@ -6,6 +6,7 @@
 const hre = require("hardhat");
 
 async function main() {
+  console.log('Starting Deploy...');
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
   //
@@ -14,9 +15,11 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const MultiverseAlbums = await hre.ethers.getContractFactory("MultiverseAlbums");
+  const MultiverseAlbums = await hre.ethers.getContractFactory("MultiverseAlbums")
   const multiverseAlbums = await MultiverseAlbums.deploy();
 
+  console.log('Deploy triggered. Waiting for "deployed" to resolve...', multiverseAlbums)
+ 
   await multiverseAlbums.deployed();
 
   console.log("MultiverseAlbums NFT deployed to:", multiverseAlbums.address);
