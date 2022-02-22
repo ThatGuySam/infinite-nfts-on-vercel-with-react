@@ -32,7 +32,8 @@ npm run deploy-local-network
 npm run dev
 ```
 
-Update the deployed contract address in `compoonents/Home.js` 
+Once you have a publicly working contract address you can deploy the site live with `npm run deploy-vercel` or by clicking the button below.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FThatGuySam%2Finfinite-nfts-on-vercel-with-react)
 
 
 ## Nonce too high
