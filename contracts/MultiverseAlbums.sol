@@ -6,14 +6,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract FiredGuys is ERC721, ERC721URIStorage, Ownable {
+contract MultiverseAlbums is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
 
     mapping(string => uint8) existingURIs;
 
-    constructor() ERC721("FiredGuys", "FYRYR") {}
+    constructor() ERC721("MultiverseAlbums", "MVA") {}
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://multiversealbums.com/";

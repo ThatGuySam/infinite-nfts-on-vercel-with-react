@@ -2,9 +2,9 @@ import WalletBalance from './WalletBalance';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers'
 
-import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json'
+import MultiverseAlbums from '../artifacts/contracts/MultiverseAlbums.sol/MultiverseAlbums.json'
 import { getMetaDataUrl, getImageUrl } from '../helpers/urls.js'
-import { recoverAddress } from 'ethers/lib/utils';
+
 
 // https://vitejs.dev/guide/env-and-mode.html#env-files
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
@@ -32,7 +32,7 @@ async function setupContractInstance () {
   signer = provider.getSigner()
   
   // get the smart contract
-  contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer)
+  contract = new ethers.Contract(contractAddress, MultiverseAlbums.abi, signer)
 
   return {
     contract,
