@@ -42,7 +42,7 @@ async function setupPathVariables () {
     console.log('assets', (await glob('./src/assets/*')))
 
     // https://vercel.com/docs/runtimes#advanced-usage/technical-details/including-additional-files
-    pathsJson = await fs.readFile('./src/assets/built-path-references.json')
+    const pathsJson = await fs.readFile('./src/assets/built-path-references.json')
     paths = JSON.parse(pathsJson)
 
     wordsListPath = `${ paths.wordsList }.txt`
