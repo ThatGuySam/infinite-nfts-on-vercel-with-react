@@ -7,7 +7,7 @@ import axios from 'axios'
 import { getDeterministicItem } from '../../src/helpers/deterministic.js'
 import { getImageURLFromDecimal } from '../../src/helpers/urls.js'
 
-import paths from '../../src/assets/built-path-references.json'
+// import paths from '../../src/assets/built-path-references.json'
 
 
 
@@ -32,10 +32,22 @@ export const successHeaders = {
 }
 
 
-const wordsListPath = `${ paths.wordsList }.txt`
-const wordsMetaPath = `${ paths.wordsList }-meta.json`
-const imageListPath = `${ paths.imageUrlList }.txt`
-const imageMetaPath = `${ paths.imageUrlList }-meta.json`
+let paths
+let wordsListPath
+let wordsMetaPath
+let imageListPath
+let imageMetaPath
+
+async function setupPathVariables () {
+    paths = await fs.readJson('./src/assets/built-path-references.json')
+
+    wordsListPath = `${ paths.wordsList }.txt`
+    wordsMetaPath = `${ paths.wordsList }-meta.json`
+    imageListPath = `${ paths.imageUrlList }.txt`
+    imageMetaPath = `${ paths.imageUrlList }-meta.json`
+
+    return
+}
 
 
 const layersDirectory = 'src/assets'
@@ -259,6 +271,8 @@ export default async function (req, res) {
         const { ext, name } = path.parse( req.query.path )
         // Trim dot from extension
         const extension = ext.substring(1)
+
+        await setupPathVariables()
 
         const {
             meta, 
