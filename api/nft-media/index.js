@@ -247,9 +247,11 @@ async function createImageXml ( multiverseAlbumNumber ) {
 
     const final = workingString
 
+    // https://docs.opensea.io/docs/metadata-standards#metadata-structure
     const meta = {
         name,
         description: `A drawing of ${name.split('-').join(' ')}`,
+        // external_url: 'https://www.multiverse.com/cards/' + multiverseAlbumNumber,
         image: 'https://multiversealbums.com/' + getImageURLFromDecimal( multiverseAlbumNumber ),
         attributes: [
             { 
