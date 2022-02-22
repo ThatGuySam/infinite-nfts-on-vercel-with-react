@@ -31,3 +31,10 @@ npm run dev
 ```
 
 Update the deployed contract address in `compoonents/Home.js` 
+
+
+## Nonce too high
+
+This means you need to reset MetaMask test account
+https://medium.com/@thelasthash/solved-nonce-too-high-error-with-metamask-and-hardhat-adc66f092cd
+
