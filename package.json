@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "start-hardhat-server": "hardhat && hardhat node",
     "deploy-local-network": "hardhat compile && hardhat run scripts/deploy.js --network localhost",
-    "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic"
+    "deploy-matic-network": "hardhat compile && hardhat run scripts/deploy.js --network matic",
+    "deploy-vercel-staging": "vercel", 
+    "deploy-vercel-production": "vercel --prod"
   },
   "dependencies": {
     "axios": "^0.26.0",
