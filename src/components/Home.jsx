@@ -4,27 +4,54 @@ import { ethers } from 'ethers'
 
 import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json'
 import { getMetaDataUrl, getImageUrl } from '../helpers/urls.js'
+import { recoverAddress } from 'ethers/lib/utils';
 
 // https://vitejs.dev/guide/env-and-mode.html#env-files
 const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
 
 // console.log('contractAddress', contractAddress)
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-// get the end user
-const signer = provider.getSigner();
 
-// get the smart contract
-const contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer)
+let contract = null
+let signer = null
+
+async function setupContractInstance () {
+
+  if ( contract !== null ) {
+    return contract
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+  // Prompt user for account connections
+  // https://stackoverflow.com/a/67836760/1397641
+  await provider.send('eth_requestAccounts', [])
+
+  // get the end user
+  signer = provider.getSigner()
+  
+  // get the smart contract
+  contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer)
+
+  return {
+    contract,
+    signer
+  }
+}
 
 
 function Home() {
 
   const [totalMinted, setTotalMinted] = useState(0);
   useEffect(() => {
-    getCount();
-  }, []);
+
+    setupContractInstance()
+      .then(() => {
+        getCount()
+      })
+
+  }, [])
 
   const getCount = async () => {
     const count = await contract.count()//.catch(console.error)
@@ -42,6 +69,7 @@ function Home() {
       <div className="container">
         <div className="row">
           {Array(totalMinted + 1)
+            .reverse()
             .fill(0)
             .map((_, i) => (
               <div key={i} className="col-sm">
@@ -62,7 +90,12 @@ function NFTImage({ tokenId, getCount }) {
 
   const [isMinted, setIsMinted] = useState(false);
   useEffect(() => {
-    getMintedStatus();
+
+    setupContractInstance()
+      .then(() => {
+        getMintedStatus()
+      })
+
   }, [isMinted]);
 
   const getMintedStatus = async () => {
@@ -77,7 +110,7 @@ function NFTImage({ tokenId, getCount }) {
     const connection = contract.connect(signer);
     const addr = connection.address;
     const result = await contract.payToMint(addr, metadataURI, {
-      value: ethers.utils.parseEther('0.05'),
+      value: ethers.utils.parseEther('0.005'),
     });
 
     await result.wait();
