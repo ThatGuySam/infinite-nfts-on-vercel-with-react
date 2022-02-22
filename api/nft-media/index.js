@@ -39,7 +39,11 @@ let imageListPath
 let imageMetaPath
 
 async function setupPathVariables () {
-    paths = await fs.readJson('./src/assets/built-path-references.json')
+    const assets = (await glob('/src/assets/**/*'))
+    console.log('assets', assets)
+
+    pathsJson = await fs.readFile('./src/assets/built-path-references.json')
+    paths = JSON.parse(pathsJson)
 
     wordsListPath = `${ paths.wordsList }.txt`
     wordsMetaPath = `${ paths.wordsList }-meta.json`
