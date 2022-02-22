@@ -1,4 +1,4 @@
-# Web3 - Full Tutorial
+# Web3 Extended Tutorial - Multiverse Albums
 
 Based on [Fireship's Excellent NFT Tutorial](https://fireship.io/lessons/web3-solidity-hardhat-react-tutorial/)
 
